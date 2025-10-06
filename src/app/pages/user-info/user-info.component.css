@@ -188,12 +188,10 @@ select {
     }
 
     .profile-form {
-        width: 100%;
-    }
-
-    .user-info-card {
         width: 90%;
     }
+
+  
 }
 
 @media (max-width: 768px) {
@@ -237,9 +235,6 @@ select {
         width: 60px;
     }
 
-    .user-info-card {
-        flex-direction: column;
-    }
 
     .account-body {
         width: 95%;
