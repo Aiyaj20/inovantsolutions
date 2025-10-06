@@ -1,0 +1,203 @@
+<div class="account-container">
+    <header class="account-header">
+        <img src="assets/log.png" class="logo" alt="Logo" />
+        <div class="title">
+            <h1>MY ACCOUNT</h1>
+            <p>Manage Your Fun: View Tickets, Book Zones, and Track Your Adventure!</p>
+        </div>
+        <div class="lang-menu">
+            <span>العربية</span>
+            <img src="assets/menu.svg" alt="menu" />
+        </div>
+    </header>
+
+    <!-- Profile Info -->
+    <section class="user-info-card">
+        <div class="user-avatar">
+            <img [src]="userImage || 'assets/avatar.svg'" alt="avatar" />
+        </div>
+        <div class="user-details">
+            <h3>{{ user.firstName }} {{ user.lastName }}</h3>
+            <p>+91 {{ user.phone }}</p>
+            <p>{{ user.email }}</p>
+        </div>
+    </section>
+
+    <div class="account-body">
+        <aside class="sidebar">
+            <ul>
+                <li class="active">
+                    <img src="assets/avatar.svg" alt="Logo" style="height: 15px;width: 15px;" />
+                    Edit Profile
+                </li>
+                <li>
+                    <img src="assets/faq.svg" alt="Logo" style="height: 15px;width: 15px;" />
+                    FAQs
+                </li>
+                <li>
+                    <img src="assets/contact.svg" alt="Logo" style="height: 15px;width: 15px;" />
+                    Contact Us</li>
+                <li>
+                    <img src="assets/userdelete.svg" alt="Logo" style="height: 15px;width: 15px;" />
+                    Delete Account</li>
+                <li class="logout" (click)="logout()">
+                    <img src="assets/exit.svg" alt="Logo" style="height: 15px;width: 15px;" />
+                    Logout</li>
+            </ul>
+        </aside>
+        <main class="profile-form">
+            <h2>PERSONAL INFORMATION</h2>
+
+            <form [formGroup]="profileForm" (ngSubmit)="onSave()">
+                <div style="display: flex;">
+                    <div class="avatar-upload">
+                        <img [src]="previewUrl || 'assets/avatar.svg'" alt="profile"
+                            style="width: 50px; height: 50px; border-radius: 50%; cursor: pointer;"
+                            (click)="triggerFileInput()" />
+                        <input type="file" #fileInput (change)="onFileSelected($event)" style="display: none;" />
+                    </div>&nbsp;
+                    <div class="user-details">
+                        <h3>{{ user.firstName }} {{ user.lastName }}</h3>
+                        <p>{{ user.email }}</p>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>First Name</label>
+                        <input formControlName="firstName" type="text" placeholder="Enter your first name" />
+                    </div>
+                    <div class="form-group">
+                        <label>Last Name</label>
+                        <input formControlName="lastName" type="text" placeholder="Enter your last name" />
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input formControlName="email" type="email" placeholder="Enter your Email" />
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <div class="phone-input">
+                            <select formControlName="phoneCode" style="border-radius:5px 0 0 5px;">
+                                <option value="965">965</option>
+                                <option value="91">+91</option>
+                            </select>
+                            <input formControlName="phone" type="text"
+                                style="border-radius: 0 5px 5px 0;width: 100%;" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group password-group">
+                        <label for="oldPassword">Old Password </label>
+                        <div class="input-icon-wrapper phone-input">
+                            <input id="oldPassword" type="{{ showOldPassword ? 'text' : 'password' }}"
+                                formControlName="oldPassword" placeholder="Enter your current password" />
+                            <span class="toggle-icon" (click)="toggleOldPassword()">
+                                <svg width="24px" height="24px" *ngIf="showOldPassword" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M15.0007 12C15.0007 13.6569 13.6576 15 12.0007 15C10.3439 15 9.00073 13.6569 9.00073 12C9.00073 10.3431 10.3439 9 12.0007 9C13.6576 9 15.0007 10.3431 15.0007 12Z"
+                                        stroke="#a1a1a1" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round"> </path>
+                                    <path
+                                        d="M12.0012 5C7.52354 5 3.73326 7.94288 2.45898 12C3.73324 16.0571 7.52354 19 12.0012 19C16.4788 19 20.2691 16.0571 21.5434 12C20.2691 7.94291 16.4788 5 12.0012 5Z"
+                                        stroke="#a1a1a1" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round"> </path>
+                                </svg>
+                                <svg viewBox="0 0 24 24" fill="none" width="24px" *ngIf="!showOldPassword" height="24px"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M2.99902 3L20.999 21M9.8433 9.91364C9.32066 10.4536 8.99902 11.1892 8.99902 12C8.99902 13.6569 10.3422 15 11.999 15C12.8215 15 13.5667 14.669 14.1086 14.133M6.49902 6.64715C4.59972 7.90034 3.15305 9.78394 2.45703 12C3.73128 16.0571 7.52159 19 11.9992 19C13.9881 19 15.8414 18.4194 17.3988 17.4184M10.999 5.04939C11.328 5.01673 11.6617 5 11.9992 5C16.4769 5 20.2672 7.94291 21.5414 12C21.2607 12.894 20.8577 13.7338 20.3522 14.5"
+                                        stroke="#a1a1a1" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round"></path>
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group password-group">
+                        <label for="newPassword">New Password </label>
+                        <div class="input-icon-wrapper phone-input">
+                            <input id="newPassword" type="{{ showNewPassword ? 'text' : 'password' }}"
+                                formControlName="newPassword" placeholder="Enter your current password" />
+                            <span class="toggle-icon" (click)="toggleNewPassword()">
+                                <svg width="24px" height="24px" *ngIf="showNewPassword" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M15.0007 12C15.0007 13.6569 13.6576 15 12.0007 15C10.3439 15 9.00073 13.6569 9.00073 12C9.00073 10.3431 10.3439 9 12.0007 9C13.6576 9 15.0007 10.3431 15.0007 12Z"
+                                        stroke="#a1a1a1" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round"> </path>
+                                    <path
+                                        d="M12.0012 5C7.52354 5 3.73326 7.94288 2.45898 12C3.73324 16.0571 7.52354 19 12.0012 19C16.4788 19 20.2691 16.0571 21.5434 12C20.2691 7.94291 16.4788 5 12.0012 5Z"
+                                        stroke="#a1a1a1" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round"> </path>
+                                </svg>
+                                <svg viewBox="0 0 24 24" fill="none" width="24px" *ngIf="!showNewPassword" height="24px"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M2.99902 3L20.999 21M9.8433 9.91364C9.32066 10.4536 8.99902 11.1892 8.99902 12C8.99902 13.6569 10.3422 15 11.999 15C12.8215 15 13.5667 14.669 14.1086 14.133M6.49902 6.64715C4.59972 7.90034 3.15305 9.78394 2.45703 12C3.73128 16.0571 7.52159 19 11.9992 19C13.9881 19 15.8414 18.4194 17.3988 17.4184M10.999 5.04939C11.328 5.01673 11.6617 5 11.9992 5C16.4769 5 20.2672 7.94291 21.5414 12C21.2607 12.894 20.8577 13.7338 20.3522 14.5"
+                                        stroke="#a1a1a1" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round"></path>
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group password-group">
+                        <label for="confirmPassword">Confirm New Password</label>
+                        <div class="input-icon-wrapper phone-input">
+                            <input id="confirmPassword" type="{{ showConfirmPassword ? 'text' : 'password' }}"
+                                formControlName="confirmPassword" placeholder="Enter your current password" />
+                            <span class="toggle-icon" (click)="toggleConfirmPassword()">
+                                <svg width="24px" height="24px" *ngIf="showConfirmPassword" viewBox="0 0 24 24"
+                                    fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M15.0007 12C15.0007 13.6569 13.6576 15 12.0007 15C10.3439 15 9.00073 13.6569 9.00073 12C9.00073 10.3431 10.3439 9 12.0007 9C13.6576 9 15.0007 10.3431 15.0007 12Z"
+                                        stroke="#a1a1a1" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round"> </path>
+                                    <path
+                                        d="M12.0012 5C7.52354 5 3.73326 7.94288 2.45898 12C3.73324 16.0571 7.52354 19 12.0012 19C16.4788 19 20.2691 16.0571 21.5434 12C20.2691 7.94291 16.4788 5 12.0012 5Z"
+                                        stroke="#a1a1a1" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round"> </path>
+                                </svg>
+                                <svg viewBox="0 0 24 24" fill="none" width="24px" *ngIf="!showConfirmPassword"
+                                    height="24px" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M2.99902 3L20.999 21M9.8433 9.91364C9.32066 10.4536 8.99902 11.1892 8.99902 12C8.99902 13.6569 10.3422 15 11.999 15C12.8215 15 13.5667 14.669 14.1086 14.133M6.49902 6.64715C4.59972 7.90034 3.15305 9.78394 2.45703 12C3.73128 16.0571 7.52159 19 11.9992 19C13.9881 19 15.8414 18.4194 17.3988 17.4184M10.999 5.04939C11.328 5.01673 11.6617 5 11.9992 5C16.4769 5 20.2672 7.94291 21.5414 12C21.2607 12.894 20.8577 13.7338 20.3522 14.5"
+                                        stroke="#a1a1a1" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round"></path>
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+                    <!-- <div class="form-group">
+                        <label>Confirm New Password</label>
+                        <input formControlName="confirmPassword" type="password"
+                            placeholder="Enter your new password" />
+                    </div> -->
+                    <div class="form-group">
+                        &nbsp;
+                    </div>
+                </div>
+
+                <button type="submit" class="save-btn">Save</button>
+            </form>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="account-footer">
+        <div class="quick-links">
+            <h4>Quick links</h4>
+            <p>Press · FAQs · Contact us · About us · Join the team · Terms & conditions</p>
+        </div>
+        <div class="footer-bottom">
+            <p>PRIVACY POLICY · FOLLOW US · PRESENTED BY Kland</p>
+        </div>
+    </footer>
+</div>
